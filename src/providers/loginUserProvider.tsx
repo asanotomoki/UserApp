@@ -1,9 +1,11 @@
 import React, { createContext, Dispatch, SetStateAction } from "react";
 import { UserType } from "../types/api/user";
 
+type isAdminUser = UserType & { isAdmin: boolean }
+
 export type LoginUserContextType = {
-	LoginUser: UserType | null;
-	setLoginUser: Dispatch<SetStateAction<UserType | null>>;
+	LoginUser: isAdminUser| null;
+	setLoginUser: Dispatch<SetStateAction<isAdminUser | null>>;
 }
 
 export const LoginUserContext = createContext<LoginUserContextType>(
@@ -15,7 +17,7 @@ type Props = {
 }
 
 export const LoginUserProvider: React.FC<Props> = ({ children }) => {
-	const [LoginUser, setLoginUser] = React.useState<UserType | null>(null);
+	const [LoginUser, setLoginUser] = React.useState<isAdminUser | null>(null);
 	return (
 		<LoginUserContext.Provider value={{ LoginUser, setLoginUser }}>
 			{children}

@@ -4,11 +4,13 @@ import axios from "axios";
 import { UserType } from "../types/api/user";
 import { useNavigate } from "react-router-dom";
 import { useMessage } from "./useMessage";
+import { useLoginUser } from "./useLoginUser";
 
 export const useAuth = () => {
 	const { showMessage } = useMessage();
 	const navigate = useNavigate();
 	const [ loading, setLoading ] = React.useState(false);
+	const { setLoginUser } = useLoginUser();
 
 	const login = useCallback((id:string) => {
 		setLoading(true);
@@ -17,7 +19,8 @@ export const useAuth = () => {
 			if (res.data.id)
 			{
 				navigate("/home");
-
+				const isAdmin = res.data.id === 10;
+				setLoginUser({ ...res.data, isAdmin });
 				showMessage({ title: "Login Success!", status: "success" });
 			}
 			else
@@ -29,6 +32,6 @@ export const useAuth = () => {
 		}).finally(() => {
 			setLoading(false);
 		});
-	}, [navigate, setLoading, showMessage])
+	}, [navigate, setLoading, showMessage, setLoginUser])
 	return { login, loading };
 }

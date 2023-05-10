@@ -7,6 +7,7 @@ import { useAllUsers } from '../../hooks/useAllUsers'
 import { useDisclosure } from '@chakra-ui/react'
 import { UserModal } from '../organisms/user/UserModal';
 import { UserType } from '../../types/api/user';
+import { useLoginUser } from '../../hooks/useLoginUser';
 
 export const UserManagement: FC = memo(() => {
 	const { getUsers, loading, users } = useAllUsers();
@@ -17,6 +18,8 @@ export const UserManagement: FC = memo(() => {
 		onOpen()
 	}, [setSelectedUser, onOpen]);
 	useEffect(() => getUsers(), [getUsers]);
+	const { LoginUser } = useLoginUser();
+	console.log(LoginUser);
 	return (
 		<HeaderLayout >
 			{loading ?
